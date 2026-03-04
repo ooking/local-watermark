@@ -1,0 +1,366 @@
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* 主容器样式 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* 标题样式 */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 28px;
+}
+
+.privacy-notice {
+    text-align: center;
+    color: #667eea;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+
+/* 上传区域样式 */
+.upload-section {
+    margin-bottom: 30px;
+}
+
+.upload-area {
+    border: 2px dashed #667eea;
+    border-radius: 15px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.upload-area:hover {
+    border-color: #764ba2;
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+}
+
+.upload-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.upload-hint {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+}
+
+/* 预览区域样式 */
+.preview-section {
+    margin-bottom: 0;
+}
+
+/* 编辑区域双栏布局 */
+.editor-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.editor-layout > .control-panel {
+    flex: 0 0 360px;
+    min-width: 0;
+}
+
+.editor-layout > .preview-section {
+    flex: 1;
+    min-width: 0;
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+}
+
+.preview-container {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8f9fa;
+    position: relative;
+}
+
+#previewCanvas {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+/* 控制面板样式 */
+.control-panel {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+}
+
+.control-group {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.control-group h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 18px;
+}
+
+/* 模板按钮样式 */
+.template-buttons,
+.direction-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.template-btn,
+.direction-btn {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.template-btn:hover,
+.direction-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.template-btn.active,
+.direction-btn.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+/* 设置行样式 */
+.setting-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.setting-row label {
+    width: 100px;
+    font-size: 14px;
+    color: #555;
+}
+
+.setting-row input[type="range"] {
+    flex: 1;
+    margin: 0 15px;
+}
+
+.setting-row input[type="color"] {
+    width: 60px;
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.setting-row select {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: white;
+}
+
+/* 文本输入框样式 */
+#watermarkText {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* 操作按钮样式 */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #e9ecef;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background: #dee2e6;
+}
+
+/* 响应式设计 - 移动端适配 */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .upload-area {
+        padding: 30px 15px;
+    }
+
+    .upload-icon {
+        font-size: 36px;
+    }
+
+    /* 移动端改为上下布局，预览区在上方 sticky */
+    .editor-layout {
+        flex-direction: column-reverse;
+    }
+
+    .editor-layout > .control-panel {
+        flex: none;
+        width: 100%;
+    }
+
+    .editor-layout > .preview-section {
+        flex: none;
+        width: 100%;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        max-height: 45vh;
+    }
+
+    .preview-container {
+        max-height: 45vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #previewCanvas {
+        max-height: 45vh;
+        width: auto;
+    }
+
+    .control-panel {
+        padding: 15px;
+    }
+
+    .control-group {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .template-buttons,
+    .direction-buttons {
+        gap: 8px;
+    }
+
+    .template-btn,
+    .direction-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .setting-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .setting-row label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .setting-row input[type="range"] {
+        margin: 10px 0;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+    }
+}
+
+/* 平板设备适配 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 900px;
+    }
+
+    .template-buttons,
+    .direction-buttons {
+        gap: 10px;
+    }
+}
+
+/* 加载动画 */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: #667eea;
+}
+
+/* 隐藏文件输入框 */
+#imageInput {
+    display: none;
+}

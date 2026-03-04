@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片加水印工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>图片加水印工具</h1>
+        <p class="privacy-notice">图片不会上传，所有处理均在本地完成</p>
+
+        <!-- 上传区域 -->
+        <div class="upload-section">
+            <input type="file" id="imageInput" accept="image/*" hidden>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📷</div>
+                <p>点击或拖拽上传图片</p>
+                <p class="upload-hint">支持 JPG、PNG 格式</p>
+            </div>
+        </div>
+
+        <!-- 编辑区域：双栏布局 -->
+        <div class="editor-layout" id="editorLayout" style="display: none;">
+        <!-- 控制面板 -->
+        <div class="control-panel" id="controlPanel">
+            <!-- 文案模板 -->
+            <div class="control-group">
+                <h3>文案模板</h3>
+                <div class="template-buttons">
+                    <button class="template-btn" data-template="copyright">版权声明</button>
+                    <button class="template-btn" data-template="watermark">水印文字</button>
+                    <button class="template-btn" data-template="confidential">机密文件</button>
+                    <button class="template-btn" data-template="custom">自定义</button>
+                </div>
+            </div>
+
+            <!-- 水印文字输入 -->
+            <div class="control-group">
+                <label for="watermarkText">水印文字：</label>
+                <input type="text" id="watermarkText" placeholder="请输入水印文字" value="版权声明">
+            </div>
+
+            <!-- 字体设置 -->
+            <div class="control-group">
+                <h3>字体设置</h3>
+                <div class="setting-row">
+                    <label for="fontFamily">字体：</label>
+                    <select id="fontFamily">
+                        <option value="Microsoft YaHei">微软雅黑</option>
+                        <option value="SimSun">宋体</option>
+                        <option value="SimHei">黑体</option>
+                        <option value="KaiTi">楷体</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Verdana">Verdana</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <label for="fontSize">字体大小：</label>
+                    <input type="range" id="fontSize" min="12" max="200" value="70">
+                    <span id="fontSizeValue">70px</span>
+                </div>
+                <div class="setting-row">
+                    <label for="fontColor">字体颜色：</label>
+                    <input type="color" id="fontColor" value="#ffffff">
+                </div>
+                <div class="setting-row">
+                    <label for="opacity">透明度：</label>
+                    <input type="range" id="opacity" min="0" max="100" value="50">
+                    <span id="opacityValue">50%</span>
+                </div>
+            </div>
+
+            <!-- 水印方向 -->
+            <div class="control-group">
+                <h3>水印方向</h3>
+                <div class="direction-buttons">
+                    <button class="direction-btn active" data-direction="horizontal">水平</button>
+                    <button class="direction-btn" data-direction="vertical">垂直</button>
+                    <button class="direction-btn" data-direction="diagonal">对角线</button>
+                </div>
+            </div>
+
+            <!-- 间距设置 -->
+            <div class="control-group">
+                <h3>间距设置</h3>
+                <div class="setting-row">
+                    <label for="spacing">文字间距：</label>
+                    <input type="range" id="spacing" min="10" max="100" value="30">
+                    <span id="spacingValue">30px</span>
+                </div>
+            </div>
+
+            <!-- 导出设置 -->
+            <div class="control-group">
+                <h3>导出设置</h3>
+                <div class="setting-row">
+                    <label for="format">图片格式：</label>
+                    <select id="format">
+                        <option value="jpg">JPG</option>
+                        <option value="png">PNG</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <label for="scale">缩放比例：</label>
+                    <input type="range" id="scale" min="10" max="200" value="100">
+                    <span id="scaleValue">100%</span>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <button id="reuploadBtn" class="btn-secondary">重新上传</button>
+                <button id="downloadBtn" class="btn-primary">下载图片</button>
+                <button id="resetBtn" class="btn-secondary">重置设置</button>
+            </div>
+        </div>
+
+        <!-- 预览区域 -->
+        <div class="preview-section" id="previewSection">
+            <div class="preview-container">
+                <canvas id="previewCanvas"></canvas>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
