@@ -1,0 +1,49 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Add Cache Buster (Commit Hash)
+        run: |
+          # 获取当前提交的 short hash (前 7 位)
+          HASH=$(git rev-parse --short HEAD)
+          echo "Current Commit Hash: $HASH"
+          
+          # 在 index.html 中替换引用的静态文件，增加形如 ?v=a1b2c3d 的查询字符串
+          sed -i "s/styles.css/styles.css?v=$HASH/g" index.html
+          sed -i "s/i18n.js/i18n.js?v=$HASH/g" index.html
+          sed -i "s/script.js/script.js?v=$HASH/g" index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 上传当前根目录所有文件（包括已经替换过字符串的 index.html）
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
