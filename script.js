@@ -91,8 +91,17 @@ const elements = {
  * 初始化应用
  */
 function init() {
+    // 检查 URL 参数是否有语言设置
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+
     // 初始化语言设置
-    currentLanguage = getDefaultLanguage();
+    if (langParam && i18n[langParam]) {
+        currentLanguage = langParam;
+    } else {
+        currentLanguage = getDefaultLanguage();
+    }
+
     elements.languageSelect.value = currentLanguage;
     updateLanguage(currentLanguage);
 
@@ -106,6 +115,41 @@ function init() {
 function updateLanguage(lang) {
     const langConfig = i18n[lang];
     if (!langConfig) return;
+
+    // 更新 HTML lang 属性
+    document.documentElement.lang = lang;
+
+    // 更新 Document Title 和 Meta 标签
+    document.title = langConfig.title;
+
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && langConfig.seoDescription) metaDesc.content = langConfig.seoDescription;
+
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords && langConfig.seoKeywords) metaKeywords.content = langConfig.seoKeywords;
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.content = langConfig.title;
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc && langConfig.seoDescription) ogDesc.content = langConfig.seoDescription;
+
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twitterTitle) twitterTitle.content = langConfig.title;
+
+    const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twitterDesc && langConfig.seoDescription) twitterDesc.content = langConfig.seoDescription;
+
+    // 更新 URL (用于 SEO 和分享)，但不重新加载页面
+    try {
+        const url = new URL(window.location);
+        if (url.searchParams.get('lang') !== lang) {
+            url.searchParams.set('lang', lang);
+            window.history.replaceState({}, '', url);
+        }
+    } catch (e) {
+        console.error('Failed to update URL:', e);
+    }
 
     // 1. 更新带有 data-i18n 属性的普通元素文本
     document.querySelectorAll('[data-i18n]').forEach(el => {

@@ -1,6 +1,8 @@
 const i18n = {
     'zh-CN': {
         title: '图片加水印工具',
+        seoDescription: '一款免费的在线图片加水印工具，支持批量处理、自定义文字、字体调整、水印方向和透明度设置。所有处理均在浏览器本地完成，保护您的隐私，绝不上传任何图片。',
+        seoKeywords: '图片加水印, 在线水印工具, 免费加水印, 保护图片版权, 图片处理, 本地加水印',
         privacyHint: '图片不会上传，所有处理均在本地完成',
         uploadHint1: '点击或拖拽上传图片',
         uploadHint2: '支持 JPG、PNG 格式',
@@ -46,6 +48,8 @@ const i18n = {
     },
     'zh-TW': {
         title: '圖片加浮水印工具',
+        seoDescription: '一款免費的線上圖片加浮水印工具，支援批次處理、自訂文字、字體調整、浮水印方向和透明度設定。所有處理均在瀏覽器本地完成，保護您的隱私，絕不上傳任何圖片。',
+        seoKeywords: '圖片加浮水印, 線上浮水印工具, 免費加浮水印, 保護圖片版權, 圖片處理, 本地加浮水印',
         privacyHint: '圖片不會上傳，所有處理均在本地完成',
         uploadHint1: '點擊或拖曳上傳圖片',
         uploadHint2: '支援 JPG、PNG 格式',
@@ -91,6 +95,8 @@ const i18n = {
     },
     en: {
         title: 'Image Watermark Tool',
+        seoDescription: 'A free online image watermark tool supporting custom text, font adjustment, watermark direction, and opacity settings. All processing is done locally in your browser to protect your privacy.',
+        seoKeywords: 'image watermark, online watermark tool, free watermark, protect image copyright, local processing',
         privacyHint: 'Images are not uploaded. All processing is done locally.',
         uploadHint1: 'Click or drag and drop to upload',
         uploadHint2: 'Supports JPG, PNG formats',
@@ -136,6 +142,8 @@ const i18n = {
     },
     ja: {
         title: '画像透かしツール',
+        seoDescription: '無料のオンライン画像透かしツール。カスタムテキスト、フォント調整、方向、不透明度の設定をサポート。すべての処理はブラウザのローカルで行われ、プライバシーを保護します。',
+        seoKeywords: '画像透かし, オンライン透かしツール, 無料透かし, 画像著作権保護, ローカル処理',
         privacyHint: '画像はアップロードされません。すべての処理はローカルで行われます。',
         uploadHint1: 'クリックまたはドラッグ＆ドロップでアップロード',
         uploadHint2: 'JPG、PNG 形式をサポート',
@@ -181,6 +189,8 @@ const i18n = {
     },
     ko: {
         title: '이미지 워터마크 도구',
+        seoDescription: '사용자 지정 텍스트, 글꼴 조정, 방향 및 불투명도 설정을 지원하는 무료 온라인 이미지 워터마크 도구입니다. 모든 처리는 브라우저 내에서 로컬로 완료되어 개인 정보를 보호합니다.',
+        seoKeywords: '이미지 워터마크, 온라인 워터마크 도구, 무료 워터마크, 이미지 저작권 보호, 로컬 처리',
         privacyHint: '이미지는 업로드되지 않으며 모든 처리는 로컬에서 진행됩니다.',
         uploadHint1: '클릭하거나 드래그하여 업로드',
         uploadHint2: 'JPG, PNG 형식 지원',
