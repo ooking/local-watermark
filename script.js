@@ -1,4 +1,5 @@
 // 全局变量
+let currentLanguage = 'zh-CN'; // 默认语言
 let originalImage = null;
 let watermarkCanvas = null;
 let currentSettings = {
@@ -13,8 +14,20 @@ let currentSettings = {
     scale: 1.0
 };
 
+// 获取浏览器默认语言
+function getDefaultLanguage() {
+    const browserLang = navigator.language || navigator.userLanguage;
+    if (browserLang.toLowerCase().includes('zh-tw') || browserLang.toLowerCase().includes('zh-hk') || browserLang.toLowerCase().includes('zh-mo') || browserLang.toLowerCase().includes('zh-hant')) {
+        return 'zh-TW'; // 繁体中文
+    }
+    if (browserLang.toLowerCase().includes('zh')) return 'zh-CN'; // 简体中文
+    if (browserLang.toLowerCase().includes('ja')) return 'ja';
+    if (browserLang.toLowerCase().includes('ko')) return 'ko';
+    return 'en'; // 默认回退到英文
+}
+
 // 文案模板配置
-const textTemplates = {
+let textTemplates = {
     copyright: {
         text: '© 2024 版权所有',
         fontSize: 28,
@@ -36,6 +49,15 @@ const textTemplates = {
         fontColor: '#FFFFFF'
     }
 };
+
+// 更新模板文本为当前语言版本
+function updateTemplatesForLanguage() {
+    const langConfig = i18n[currentLanguage].watermarkTexts;
+    textTemplates.copyright.text = langConfig.copyright;
+    textTemplates.watermark.text = langConfig.watermark;
+    textTemplates.confidential.text = langConfig.confidential;
+    textTemplates.custom.text = langConfig.custom;
+}
 
 // DOM 元素
 const elements = {
@@ -61,15 +83,63 @@ const elements = {
     downloadBtn: document.getElementById('downloadBtn'),
     resetBtn: document.getElementById('resetBtn'),
     reuploadBtn: document.getElementById('reuploadBtn'),
-    templateButtons: document.querySelectorAll('.template-btn')
+    templateButtons: document.querySelectorAll('.template-btn'),
+    languageSelect: document.getElementById('languageSelect')
 };
 
 /**
  * 初始化应用
  */
 function init() {
+    // 初始化语言设置
+    currentLanguage = getDefaultLanguage();
+    elements.languageSelect.value = currentLanguage;
+    updateLanguage(currentLanguage);
+
     setupEventListeners();
     console.log('图片加水印工具已初始化');
+}
+
+/**
+ * 更新界面语言
+ */
+function updateLanguage(lang) {
+    const langConfig = i18n[lang];
+    if (!langConfig) return;
+
+    // 1. 更新带有 data-i18n 属性的普通元素文本
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (langConfig[key]) {
+            el.textContent = langConfig[key];
+        }
+    });
+
+    // 2. 更新带有 data-i18n-placeholder 属性的输入框占位符
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (langConfig[key]) {
+            el.placeholder = langConfig[key];
+        }
+    });
+
+    // 3. 更新模板数据
+    updateTemplatesForLanguage();
+
+    // 4. 重置当前设置中的文本 (如果它属于某个模板，则更新为新语言对应文本)
+    // 如果用户手动修改了文本，这里可以选择保留或者重置，为了简单起见，我们触发一次当前活动模板的点击效果，或者重置到默认版权声明。
+    let activeTemplateBtn = document.querySelector('.template-btn.active');
+    if (!activeTemplateBtn) {
+        // 如果没有高亮的，默认使用第一个
+        activeTemplateBtn = elements.templateButtons[0];
+        activeTemplateBtn.classList.add('active');
+    }
+    const templateKey = activeTemplateBtn.dataset.template;
+    currentSettings.text = textTemplates[templateKey].text;
+    elements.watermarkText.value = currentSettings.text;
+
+    // 更新预览
+    updatePreview();
 }
 
 /**
@@ -80,6 +150,12 @@ function setupEventListeners() {
     elements.uploadArea.addEventListener('click', () => elements.imageInput.click());
     elements.uploadArea.addEventListener('dragover', handleDragOver);
     elements.uploadArea.addEventListener('drop', handleDrop);
+
+    // 语言切换事件
+    elements.languageSelect.addEventListener('change', (e) => {
+        currentLanguage = e.target.value;
+        updateLanguage(currentLanguage);
+    });
 
     // 文件输入事件
     elements.imageInput.addEventListener('change', handleImageUpload);
@@ -194,13 +270,13 @@ function handleImageUpload(e) {
 function handleImageFile(file) {
     // 验证文件类型
     if (!file.type.startsWith('image/')) {
-        alert('请选择图片文件！');
+        alert(i18n[currentLanguage].alertNotImage);
         return;
     }
 
     // 验证文件大小（限制为10MB）
     if (file.size > 10 * 1024 * 1024) {
-        alert('图片文件过大，请选择10MB以下的图片！');
+        alert(i18n[currentLanguage].alertTooLarge);
         return;
     }
 
@@ -224,12 +300,12 @@ function handleImageFile(file) {
             });
         };
         originalImage.onerror = () => {
-            alert('图片加载失败，请检查图片格式！');
+            alert(i18n[currentLanguage].alertLoadFail);
         };
         originalImage.src = e.target.result;
     };
     reader.onerror = () => {
-        alert('文件读取失败！');
+        alert(i18n[currentLanguage].alertReadFail);
     };
     reader.readAsDataURL(file);
 }
@@ -537,7 +613,7 @@ function downloadImage() {
 
     } catch (error) {
         console.error('图片下载失败:', error);
-        alert('图片下载失败，请重试！');
+        alert(i18n[currentLanguage].alertDownloadFail);
     }
 }
 
@@ -545,9 +621,12 @@ function downloadImage() {
  * 重置设置
  */
 function resetSettings() {
+    // 重新获取模板语言设置
+    updateTemplatesForLanguage();
+
     // 重置设置到默认值
     currentSettings = {
-        text: '版权声明',
+        text: textTemplates.copyright.text,
         fontFamily: 'Microsoft YaHei',
         fontSize: 70,
         fontColor: '#ffffff',
